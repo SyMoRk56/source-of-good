@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,12 +18,23 @@ public class ThisCat : MonoBehaviour
     public TMP_Text nameText;
     UIManager uimanager;
     public bool isCol;
+    public List<AudioSource> audioSources;
+    public AudioSource murchanie;
     private void Start()
     {
+        audioSources = GetComponents<AudioSource>().ToList();
         interaction = FindObjectOfType<PlayerInteraction>();
         
         nameText.text = thisCat.name;
         uimanager = UIManager.instance;
+        StartCoroutine("ticks");
+        for(int i = 0; i < audioSources.Count; i++) {
+            if (audioSources[i] == murchanie)
+            {
+                audioSources.Remove(audioSources[i]);
+                break;
+            }
+        }
     }
     private void Update()
     {
@@ -42,7 +54,30 @@ public class ThisCat : MonoBehaviour
         }
 
     }
-    
+    IEnumerator ticks()
+    {
+        int r = Random.Range(0, 1200);
+        if(r == 1)
+        {
+            int a = Random.Range(0, audioSources.Count);
+            audioSources[a].Play();
+        }
+
+        if (thispleasure > thisCat.maxpleasure * 0.8f)
+        {
+            Debug.Log("Mur");
+            if(!murchanie.isPlaying)
+            {
+                murchanie.Play();
+            }
+            
+        }
+        //else murchanie.Stop();
+        
+        yield return new WaitForSeconds(0.01f);
+        StartCoroutine("ticks");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "Player")
