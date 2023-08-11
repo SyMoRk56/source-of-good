@@ -15,34 +15,40 @@ public class ThisCat : MonoBehaviour
     public GameObject infPanel;
     
     public TMP_Text nameText;
+    UIManager uimanager;
+    public bool isCol;
     private void Start()
     {
         interaction = FindObjectOfType<PlayerInteraction>();
         
         nameText.text = thisCat.name;
+        uimanager = UIManager.instance;
     }
     private void Update()
     {
         damagetimer += Time.deltaTime;
         pleasuretimer += Time.deltaTime;
 
-        if (pleasuretimer > 2 && thispleasure >= 0)
+        if (pleasuretimer > 2 && thispleasure >= 0 && isCol)
         {
-            thispleasure -= 0.001f;
-            
+            thispleasure -= 0.004f;
+            //Debug.Log("thispleasure " + thispleasure + "  max" + thisCat.maxpleasure);
+            uimanager.ChangePetAmount(thispleasure, thisCat.maxpleasure);
             if (thispleasure < 0)
             {
                 thispleasure = 0;
             }
+            
         }
 
     }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.name == "Player")
         {
             infPanel.SetActive(true);
-
+            isCol = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -50,7 +56,9 @@ public class ThisCat : MonoBehaviour
         if (other.gameObject.name == "Player")
         {
             infPanel.SetActive(false);
-
+            isCol = false;
+            thispleasure = 0;
+            uimanager.StartCoroutine("HideBar");
         }
     }
     public void Pet()
@@ -74,6 +82,6 @@ public class ThisCat : MonoBehaviour
             }
             pleasuretimer = 0;
         }
-        
+        uimanager.ChangePetAmount(thispleasure, thisCat.maxpleasure);
     }
 }
