@@ -9,22 +9,20 @@ public class Door : MonoBehaviour
     public Animator animator;
     private void OnTriggerEnter(Collider other)
     {
-        patHelp.instance.Show("E", "doorHelp");
-        if(other.gameObject.name == "Player")
+        if (!UIManager.instance.isOpen)
         {
-            animator.SetTrigger("On");
+            patHelp.instance.Show("E", "doorHelp");
+            if (other.gameObject.name == "Player")
+            {
+                UIManager.instance.StartAnimPet();
+            }
         }
+        
     }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.name == "Player")
-        {
-            animator.SetTrigger("Off");
-        }
-    }
+   
     private void Update()
     {
-        if (Input.GetKeyUp(OpenDoorCode))
+        if (Input.GetKeyDown(OpenDoorCode))
         {
             if(isLocked)
             {

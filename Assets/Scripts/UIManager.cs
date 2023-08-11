@@ -7,12 +7,18 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    public Animator catAnim, doorAnim, errorAnim;
+    public RectTransform catHelpPanel,errorPanel;
+    public float needTimeToAnim;
     public TMP_Text errorText;
+    [HideInInspector]
+    public bool isOpen = false;
+    public bool isErr = false;
+    public float catHelpY1, catHelpY2,errX1,errX2;
     void Awake()
     {
         instance = this;
     }
+    
     public void Error(string thisname)
     {
         
@@ -20,26 +26,50 @@ public class UIManager : MonoBehaviour
         {
             errorText.text = "Door is closed";
         }
-        errorAnim.SetTrigger("On");
-        Debug.Log("error");
+        StartAnimErr();
+       
     }
-     
-public void CatAnimOn()
-    {
-        catAnim.SetTrigger("On");
+    public void StartAnimPet() {
+        if (!isOpen)
+        {
+            LeanTween.moveY(catHelpPanel, catHelpY1, needTimeToAnim);
+            Invoke("CloseAnimPet", 3f);
+        }
+        isOpen = true;
     }
-    public void CatAnimOff()
+    public void CloseAnimPet()
     {
-        catAnim.SetTrigger("Off");
+        
+        LeanTween.moveY(catHelpPanel, catHelpY2, needTimeToAnim);
+        
+        StartCoroutine("resetIsOpen");
     }
-    public void DoorAnimOn()
+    IEnumerator resetIsOpen()
     {
-        doorAnim.SetTrigger("On");
+        yield return new WaitForSeconds(needTimeToAnim); isOpen = false;
+    }
+    public void StartAnimErr()
+    {
+        Debug.Log("StartAnimErr");
+        if(!isErr)
+        {
+            
+            LeanTween.moveX(errorPanel, errX1, needTimeToAnim);
+            Invoke("CloseAnimErr", 2f);
+        }
+        isErr = true;
+        
+    }
+    void CloseAnimErr()
+    {
+        
+        LeanTween.moveX(errorPanel, errX2, needTimeToAnim);
+        StartCoroutine("resetIsErr");
+    }
+    IEnumerator resetIsErr()
+    {
+        yield return new WaitForSeconds(needTimeToAnim); isErr = false;
+    }
 
-    }
-    public void DoorAnimOff()
-    {
-        doorAnim.SetTrigger("Off");
-    }
 
 }

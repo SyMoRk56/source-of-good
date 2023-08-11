@@ -22,10 +22,15 @@ public class PlayerInteraction : MonoBehaviour
         if (other.gameObject.CompareTag("cat"))
         {
             isCollede = true;
-            catObj = other.gameObject.GetComponent<ThisCat>();
+            
+                catObj = other.gameObject.GetComponent<ThisCat>();
 
-            patHelp.Show(patKeyCode.ToString(), "petHelp");
-            UIManager.instance.CatAnimOn();
+                patHelp.Show(patKeyCode.ToString(), "petHelp");
+            if (!UIManager.instance.isOpen)
+            {
+                UIManager.instance.StartAnimPet();
+            }
+            
         }
     }
     private void OnTriggerExit(Collider other)
@@ -35,7 +40,7 @@ public class PlayerInteraction : MonoBehaviour
             isCollede = false;
             catObj = null;
 
-            UIManager.instance.CatAnimOff();
+            
             
         }
     }
