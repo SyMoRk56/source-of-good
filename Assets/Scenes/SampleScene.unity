@@ -28847,6 +28847,10 @@ PrefabInstance:
       propertyPath: thisCat
       value: 
       objectReference: {fileID: 11400000, guid: 28d3ab5ae4e915c47ad3b6446fd4676b, type: 2}
+    - target: {fileID: 262428708546300907, guid: e69ad6fed90d1a641996cea459334bd9, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 966996770044224120, guid: e69ad6fed90d1a641996cea459334bd9, type: 3}
       propertyPath: m_Name
       value: b'yanka
@@ -28869,7 +28873,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8404434706806501798, guid: e69ad6fed90d1a641996cea459334bd9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.791802
+      value: 16.63
       objectReference: {fileID: 0}
     - target: {fileID: 8404434706806501798, guid: e69ad6fed90d1a641996cea459334bd9, type: 3}
       propertyPath: m_LocalPosition.y
